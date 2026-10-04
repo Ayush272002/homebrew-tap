@@ -21,9 +21,19 @@ them, that's the second line.
 
 ## Updates
 
-Each project's release workflow writes its formula here. Don't edit them by
-hand, change the source in the project instead, e.g.
+Each project's release workflow opens a PR here with the new formula, and CI
+audits, installs and tests it before it's merged. Don't edit formulae by hand,
+change the source in the project instead, e.g.
 [`packaging/homebrew/shmscope.rb`](https://github.com/Ayush272002/shmscope/blob/main/packaging/homebrew/shmscope.rb).
+
+## Issues
+
+Problems installing through Homebrew go in
+[this repo's issues](https://github.com/Ayush272002/homebrew-tap/issues).
+Bugs in a tool itself go to that project's repo, e.g.
+[shmscope](https://github.com/Ayush272002/shmscope/issues).
+
+Maintained by [Ayush Acharjya](https://github.com/Ayush272002).
 
 ## License
 
