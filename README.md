@@ -24,3 +24,7 @@ them, that's the second line.
 Each project's release workflow writes its formula here. Don't edit them by
 hand, change the source in the project instead, e.g.
 [`packaging/homebrew/shmscope.rb`](https://github.com/Ayush272002/shmscope/blob/main/packaging/homebrew/shmscope.rb).
+
+## License
+
+Apache 2.0, see [LICENSE](LICENSE).
