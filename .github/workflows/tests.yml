@@ -17,19 +17,50 @@ jobs:
   formulae:
     runs-on: macos-14
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find changed formulae
+        id: changed
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          all=false
+          if [ "$EVENT" = workflow_dispatch ] || [ -z "$BASE" ] || [ -z "${BASE//0/}" ]; then
+            all=true
+          else
+            changed=$(git diff --name-only --diff-filter=d "$BASE" HEAD)
+            grep -qx '.github/workflows/tests.yml' <<<"$changed" && all=true
+          fi
+
+          if $all; then
+            files=$(ls Formula/*.rb)
+          else
+            files=$(grep -E '^Formula/[^/]+\.rb$' <<<"$changed" || true)
+          fi
+
+          names=$(for f in $files; do basename "$f" .rb; done | xargs)
+          echo "formulae=$names" >> "$GITHUB_OUTPUT"
+          echo "Testing: ${names:-nothing}"
+
       - uses: Homebrew/actions/setup-homebrew@main
+        if: steps.changed.outputs.formulae != ''
 
       - name: Trust tap
+        if: steps.changed.outputs.formulae != ''
         run: brew trust --tap ayush272002/tap
 
-      - name: Style
-        run: brew style ayush272002/tap
-
-      - name: Audit, install and test
+      - name: Style, audit, install and test
+        if: steps.changed.outputs.formulae != ''
+        env:
+          FORMULAE: ${{ steps.changed.outputs.formulae }}
         run: |
-          for f in Formula/*.rb; do
-            name="ayush272002/tap/$(basename "$f" .rb)"
+          for f in $FORMULAE; do
+            name="ayush272002/tap/$f"
             echo "::group::$name"
+            brew style --formula "$name"
             brew audit --strict --online --formula "$name"
             brew install --formula "$name"
             brew test "$name"
