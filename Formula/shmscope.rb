@@ -4,8 +4,8 @@
 class Shmscope < Formula
   desc "Live terminal viewer for POSIX shared memory"
   homepage "https://github.com/Ayush272002/shmscope"
-  url "https://github.com/Ayush272002/shmscope/releases/download/v0.1.4/shmscope-v0.1.4-macos-arm64.tar.gz"
-  sha256 "cf9320604761a56dd66d6cb810827252fc1083b2d09b641b9bb2f41d4af4e801"
+  url "https://github.com/Ayush272002/shmscope/releases/download/v0.1.5/shmscope-v0.1.5-macos-arm64.tar.gz"
+  sha256 "31c55a33fdc659b591703e5b2a5a7eaf5213f5a98702b6aedee99706b20814b3"
   license "Apache-2.0"
 
   livecheck do
